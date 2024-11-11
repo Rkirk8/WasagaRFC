@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WasagaRFC.Data;
 using WasagaRFC.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WasagaRFC.Controllers
 {
+    [Authorize]  // Requires users to be authenticated by default
     public class PlayersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,12 +22,14 @@ namespace WasagaRFC.Controllers
         }
 
         // GET: Players
+        [AllowAnonymous]  // Allows anonymous access to the list of players
         public async Task<IActionResult> Index()
         {
             return View(await _context.Players.ToListAsync());
         }
 
         // GET: Players/Details/5
+        [AllowAnonymous]  // Allows anonymous access to view player details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,14 +48,13 @@ namespace WasagaRFC.Controllers
         }
 
         // GET: Players/Create
+        // Requires the user to be authenticated
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Players/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PlayerId,Name,Position,Age")] Player player)
@@ -66,6 +69,7 @@ namespace WasagaRFC.Controllers
         }
 
         // GET: Players/Edit/5
+        // Requires the user to be authenticated
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,8 +86,6 @@ namespace WasagaRFC.Controllers
         }
 
         // POST: Players/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PlayerId,Name,Position,Age")] Player player)
@@ -117,6 +119,7 @@ namespace WasagaRFC.Controllers
         }
 
         // GET: Players/Delete/5
+        // Requires the user to be authenticated
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

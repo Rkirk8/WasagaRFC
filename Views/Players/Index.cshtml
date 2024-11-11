@@ -6,7 +6,8 @@
 <h1>Roster</h1>
 
 <p>
-    <a asp-action="Create">Add New Player</a>
+    <a asp-action="Create" asp-controller="Players">Add New Player</a>
+
 </p>
 <table class="table">
     <thead>
@@ -24,23 +25,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PlayerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PlayerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PlayerId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.PlayerId">Details</a> |
+                    <!-- Links only available to authorized users -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.PlayerId">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.PlayerId">Delete</a>
+                    }
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>

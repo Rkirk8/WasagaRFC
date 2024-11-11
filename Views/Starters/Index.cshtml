@@ -111,9 +111,13 @@
                     @Html.DisplayFor(modelItem => item.FullBack)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.StarterId" class="btn btn-primary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.StarterId" class="btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.StarterId" class="btn btn-danger">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.StarterId">Details</a> |
+                    <!-- Links only available to authorized users -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.StarterId">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.StarterId">Delete</a>
+                    }
                 </td>
             </tr>
         }

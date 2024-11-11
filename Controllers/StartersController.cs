@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using WasagaRFC.Data;
 using WasagaRFC.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -16,14 +18,16 @@ namespace WasagaRFC.Controllers
             _context = context;
         }
 
-        // GET: StartersController
+        // GET: Starters
+        [AllowAnonymous]  // Allow anonymous users to view the index
         public async Task<IActionResult> Index()
         {
             var starters = await _context.Starters.ToListAsync();
             return View(starters);
         }
 
-        // GET: StartersController/Details/5
+        // GET: Starters/Details/5
+        [AllowAnonymous]  // Allow anonymous users to view the details
         public async Task<IActionResult> Details(int id)
         {
             var starter = await _context.Starters
@@ -37,34 +41,14 @@ namespace WasagaRFC.Controllers
             return View(starter);
         }
 
-        // GET: StartersController/Create
-        [HttpGet]
+        // GET: Starters/Create
         public IActionResult Create()
         {
-            ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "Name");
-
-            // Populate dropdowns for each position
-            ViewData["Prop1"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Prop2"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Hooker"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Lock1"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Lock2"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Flanker1"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Flanker2"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Number8"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["ScrumHalf"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["FlyHalf"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Center1"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Center2"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Wing1"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["Wing2"] = new SelectList(_context.Players, "Id", "Name");
-            ViewData["FullBack"] = new SelectList(_context.Players, "Id", "Name");
-
+            PopulatePlayersDropDownList();
             return View();
         }
 
-
-        // POST: StartersController/Create
+        // POST: Starters/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StarterId,Prop1,Prop2,Hooker,Lock1,Lock2,Flanker1,Flanker2,Number8,ScrumHalf,FlyHalf,Center1,Center2,Wing1,Wing2,FullBack,PlayerId")] Starters starters)
@@ -75,11 +59,11 @@ namespace WasagaRFC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "Name", starters.PlayerId); // Populate dropdown again if validation fails
+            PopulatePlayersDropDownList(starters.PlayerId); // Populate dropdown again if validation fails
             return View(starters);
         }
 
-        // GET: StartersController/Edit/5
+        // GET: Starters/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var starter = await _context.Starters.FindAsync(id);
@@ -88,28 +72,11 @@ namespace WasagaRFC.Controllers
                 return NotFound();
             }
 
-            // Populate the dropdowns and preselect the current player for each position
-            ViewData["Prop1"] = new SelectList(_context.Players, "Id", "Name", starter.Prop1);
-            ViewData["Prop2"] = new SelectList(_context.Players, "Id", "Name", starter.Prop2);
-            ViewData["Hooker"] = new SelectList(_context.Players, "Id", "Name", starter.Hooker);
-            ViewData["Lock1"] = new SelectList(_context.Players, "Id", "Name", starter.Lock1);
-            ViewData["Lock2"] = new SelectList(_context.Players, "Id", "Name", starter.Lock2);
-            ViewData["Flanker1"] = new SelectList(_context.Players, "Id", "Name", starter.Flanker1);
-            ViewData["Flanker2"] = new SelectList(_context.Players, "Id", "Name", starter.Flanker2);
-            ViewData["Number8"] = new SelectList(_context.Players, "Id", "Name", starter.Number8);
-            ViewData["ScrumHalf"] = new SelectList(_context.Players, "Id", "Name", starter.ScrumHalf);
-            ViewData["FlyHalf"] = new SelectList(_context.Players, "Id", "Name", starter.FlyHalf);
-            ViewData["Center1"] = new SelectList(_context.Players, "Id", "Name", starter.Center1);
-            ViewData["Center2"] = new SelectList(_context.Players, "Id", "Name", starter.Center2);
-            ViewData["Wing1"] = new SelectList(_context.Players, "Id", "Name", starter.Wing1);
-            ViewData["Wing2"] = new SelectList(_context.Players, "Id", "Name", starter.Wing2);
-            ViewData["FullBack"] = new SelectList(_context.Players, "Id", "Name", starter.FullBack);
-
+            PopulatePlayersDropDownList(starter.PlayerId); // Passing only the PlayerId for dropdowns
             return View(starter);
         }
 
-
-        // POST: StartersController/Edit/5
+        // POST: Starters/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StarterId,Prop1,Prop2,Hooker,Lock1,Lock2,Flanker1,Flanker2,Number8,ScrumHalf,FlyHalf,Center1,Center2,Wing1,Wing2,FullBack,PlayerId")] Starters starters)
@@ -139,11 +106,11 @@ namespace WasagaRFC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "Name", starters.PlayerId); // Populate dropdown again if validation fails
+            PopulatePlayersDropDownList(starters.PlayerId); // Populate dropdown again if validation fails
             return View(starters);
         }
 
-        // GET: StartersController/Delete/5
+        // GET: Starters/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             var starter = await _context.Starters
@@ -157,15 +124,39 @@ namespace WasagaRFC.Controllers
             return View(starter);
         }
 
-        // POST: StartersController/Delete/5
+        // POST: Starters/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var starter = await _context.Starters.FindAsync(id);
-            _context.Starters.Remove(starter);
-            await _context.SaveChangesAsync();
+            if (starter != null)
+            {
+                _context.Starters.Remove(starter);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
+        }
+
+        // Helper method to populate the player dropdown lists
+        private void PopulatePlayersDropDownList(object selectedPlayer = null)
+        {
+            ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Prop1"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Prop2"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Hooker"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Lock1"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Lock2"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Flanker1"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Flanker2"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Number8"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["ScrumHalf"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["FlyHalf"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Center1"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Center2"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Wing1"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["Wing2"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
+            ViewData["FullBack"] = new SelectList(_context.Players, "Id", "Name", selectedPlayer);
         }
 
         private bool StartersExists(int id)
