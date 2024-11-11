@@ -1,0 +1,107 @@
+﻿@model WasagaRFC.Models.Starters
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Starters</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Prop1" class="control-label"></label>
+                <input asp-for="Prop1" class="form-control" />
+                <span asp-validation-for="Prop1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prop2" class="control-label"></label>
+                <input asp-for="Prop2" class="form-control" />
+                <span asp-validation-for="Prop2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hooker" class="control-label"></label>
+                <input asp-for="Hooker" class="form-control" />
+                <span asp-validation-for="Hooker" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lock1" class="control-label"></label>
+                <input asp-for="Lock1" class="form-control" />
+                <span asp-validation-for="Lock1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lock2" class="control-label"></label>
+                <input asp-for="Lock2" class="form-control" />
+                <span asp-validation-for="Lock2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flanker1" class="control-label"></label>
+                <input asp-for="Flanker1" class="form-control" />
+                <span asp-validation-for="Flanker1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flanker2" class="control-label"></label>
+                <input asp-for="Flanker2" class="form-control" />
+                <span asp-validation-for="Flanker2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Number8" class="control-label"></label>
+                <input asp-for="Number8" class="form-control" />
+                <span asp-validation-for="Number8" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScrumHalf" class="control-label"></label>
+                <input asp-for="ScrumHalf" class="form-control" />
+                <span asp-validation-for="ScrumHalf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FlyHalf" class="control-label"></label>
+                <input asp-for="FlyHalf" class="form-control" />
+                <span asp-validation-for="FlyHalf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Center1" class="control-label"></label>
+                <input asp-for="Center1" class="form-control" />
+                <span asp-validation-for="Center1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Center2" class="control-label"></label>
+                <input asp-for="Center2" class="form-control" />
+                <span asp-validation-for="Center2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Wing1" class="control-label"></label>
+                <input asp-for="Wing1" class="form-control" />
+                <span asp-validation-for="Wing1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Wing2" class="control-label"></label>
+                <input asp-for="Wing2" class="form-control" />
+                <span asp-validation-for="Wing2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullBack" class="control-label"></label>
+                <input asp-for="FullBack" class="form-control" />
+                <span asp-validation-for="FullBack" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlayerId" class="control-label"></label>
+                <select asp-for="PlayerId" class ="form-control" asp-items="ViewBag.PlayerId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

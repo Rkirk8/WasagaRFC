@@ -1,0 +1,121 @@
+﻿@model IEnumerable<WasagaRFC.Models.Starters>
+
+@{
+    ViewData["Title"] = "Starters";
+}
+
+<h1>Starters</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Starting List</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Prop1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prop2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hooker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lock1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lock2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flanker1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flanker2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Number8)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScrumHalf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlyHalf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Center1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Center2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wing1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wing2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullBack)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prop1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prop2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hooker)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lock1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lock2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flanker1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flanker2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number8)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScrumHalf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlyHalf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Center1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Center2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wing1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wing2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullBack)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StarterId" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.StarterId" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.StarterId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -13,7 +13,7 @@ namespace WasagaRFC.Models
         public string Position { get; set; }
 
         [Required]
-        public int age { get; set; }
+        public int Age { get; set; }
 
         // navigation property referencing the Starters model
         public ICollection<Starters> Starters { get; set; }

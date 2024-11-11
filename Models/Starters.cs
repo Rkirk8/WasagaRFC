@@ -4,6 +4,7 @@ namespace WasagaRFC.Models
 {
     public class Starters
     {
+        [Key]
         public int StarterId { get; set; }
 
         [Required]
